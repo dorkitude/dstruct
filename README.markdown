@@ -12,9 +12,9 @@ DStruct, you've now established a flexible accessor interface, the internal
 implementation of which can be changed later without consumption code being
 updated.
 
-But more than just a temporary solution, DSTruct makes an excellent base model
-class for all of your non-db-backed models (or mock-db-backed models).  When
-you extend DStruct, you can apply schema rules that range in rigidity from
+But more than just a temporary solution for protoypes, DSTruct makes an excellent 
+base model class for all of your non-db-backed models (or mock-db-backed models).  
+When you extend DStruct, you can apply schema rules that range in rigidity from
 anarchist to fascist.
 
 
