@@ -1,0 +1,3 @@
+[submodule "dorkitude_utils"]
+	path = dorkitude_utils
+	url = git@github.com:dorkitude/dorkitude_utils_python.git
