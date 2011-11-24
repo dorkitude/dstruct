@@ -34,25 +34,28 @@ Initialize with a dictionary *and* keyword arguments:
 Subclassing
 ===========
 
-You can also subclass DStruct to configure certain behavior.
+You can subclass DStruct to configure its behavior.  Think of it as a BaseModel
+for your non-db-backed stuff :)
 
 You can specify certain attributes as "required", and if your call to the
 constructor is missing one of them, initialization will raise an Exception
-of the type `RequiredAttributeMissing`.
+of the type `DStruct.RequiredAttributeMissing`.
 
-Optionally, you can demand a specific type for each of these attributes.
+Optionally, you can demand a specific type for each of these attributes.  If
+such an attribute is present, but its value is of an invalid type, `__init__`
+will raise a `DStruct.RequiredAttributeInvalid` Exception.
 
 
-Basic Subclass Examples: Required Attribute
+Basic Subclass Examples: RequiredAttribute
 -------------------------------------------
 
 Declare a subclass with some required attributes:
 
     class CartesianCoordinate(DStruct):
-        # Represents a cartesian point.
-        # You must construct with 'x' and 'y' attibutes!
-
-        
+        """
+        Represents a cartesian point.
+        You must construct me with 'x' and 'y' attibutes!
+        """
 
         x = DStruct.RequiredAttribute()
         y = DStruct.RequiredAttribute()
@@ -72,8 +75,8 @@ Invalid use:
     crap = CartesianCoordinate(x=3) # raises RequiredAttributeMissing
 
 
-Advanced Subclass Examples: Required Attribute
-----------------------------------------------
+Advanced Subclass Examples: RequiredAttribute with a type constraint
+---------------------------------------------------------------------
 
 Declare a DStruct subclass with some attribute type requirements:
 
