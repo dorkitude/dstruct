@@ -1,0 +1,8 @@
+*.swp
+*.swo
+*~
+Icon
+*.pyc
+*.bin
+*.log
+.DS_Store
