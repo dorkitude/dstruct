@@ -10,7 +10,6 @@ pass complex/multi-level stuff into a template.  If you pass complex stuff
 in with DStruct, you've established a flexible accessor interface, the
 backend implementation of which can be changed later with no harm done!
 
-If you're curious about why we have to do this: http://drktd.com/AlEE
 
 General Examples
 ----------------
