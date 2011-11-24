@@ -37,13 +37,24 @@ Subclassing
 You can subclass DStruct to configure its behavior.  Think of it as a BaseModel
 for your non-db-backed stuff :)
 
-You can specify certain attributes as "required", and if your call to the
+ * You can specify certain attributes as "required", and if your call to the
 constructor is missing one of them, initialization will raise an Exception
 of the type `DStruct.RequiredAttributeMissing`.
 
-Optionally, you can demand a specific type for each of these attributes.  If
+ * Optionally, you can demand a specific type for each of these attributes.  If
 such an attribute is present, but its value is of an invalid type, `__init__`
 will raise a `DStruct.RequiredAttributeInvalid` Exception.
+
+ * You can also tell DStruct not to automatically verify your schema by
+settings the class attribute `struct_schema_check_on_init` to `False`.  This
+is useful in cases where some of the required values are derived, so they
+can't all be passed into the constructor.  See the test
+`test_delayed_verification()` for an example of this.
+
+ * Finally, you can make the schema less rigid by overriding
+`cls.get_extra_allowed_types()` -- for instance, you might want to allow
+`unicode` values and `str` to be interchangeable.  See the test
+`test_flexible_schema()` for an example of this.
 
 
 Basic Subclass Examples: RequiredAttribute
