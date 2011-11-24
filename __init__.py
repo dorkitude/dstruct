@@ -171,6 +171,35 @@ class DStruct(object):
         self.__dict__.update(input_dict)
         self.__dict__.update(entries)
 
+    @classmethod
+    def get_extra_allowed_types(cls, _type):
+        """
+
+        Get a list of other types that are "squint matches" for the specified
+        type.
+
+        Subclasses can override this for more flexible schemas!
+
+        :param _type:  Type.  The type that was specified in the
+        `RequiredAttribute` constructor (the schema's expected type).
+
+        :returns:  List of Types.
+
+        """
+
+        extra_types = []
+
+        # This is provided largely as an example, but also because it's likely
+        # to be the desired behavior for most people using `str` as a required
+        # type:
+        if _type is str:
+            extra_types.append(unicode)
+        elif _type is unicode:
+            extra_types.append(str)
+
+        return extra_types
+
+
 
     def check_struct_schema(self, clazz=None):
         """
@@ -208,10 +237,9 @@ class DStruct(object):
                 if required_type:
 
                     allowed_types = [required_type]
+                    allowed_types += clazz.get_extra_allowed_types(
+                            required_type)
                 
-                    if required_type is str:
-                        allowed_types.append(unicode)
-
                     if not [1 for allowed_type in allowed_types 
                             if isinstance(self.__dict__[key], allowed_type)]:
                         raise DStruct.RequiredAttributeInvalid(
