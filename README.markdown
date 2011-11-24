@@ -96,7 +96,7 @@ Valid use:
 
 Invalid use:
 
-    with self.assertRaises(DStruct.RequiredAttributeInvalid):
+    with self.assert_raises(DStruct.RequiredAttributeInvalid):
         thing = MapLocation({
             "latitude": 1.5,
             "longitude": 3,  # this is an int, not a float!  BOOM!
@@ -104,7 +104,7 @@ Invalid use:
             })
 
 
-    with self.assertRaises(DStruct.RequiredAttributeInvalid):
+    with self.assert_raises(DStruct.RequiredAttributeInvalid):
         thing = MapLocation({
             "latitude": 1.5,
             "longitude": 3.4, 
