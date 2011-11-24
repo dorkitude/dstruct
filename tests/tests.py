@@ -277,3 +277,56 @@ class DStructTestCase(BaseTestCase):
                     category=None,
                     price_in_cents=1977)
 
+
+    def test_extra_allowed_types(self):
+
+        class NonUser(DStruct):
+            """
+
+            Represents someone who has landed on site, but hasn't yet done
+            Facebook auth or Twitter auth.
+
+            """
+
+            # schema:
+            name = DStruct.RequiredAttribute(str)
+            age = DStruct.RequiredAttribute(int)
+
+
+            @classmethod
+            def get_extra_allowed_types(cls, _type):
+                """
+
+                Overriding this because sometimes we won't have a person's age,
+                but if we do, we need it to be an integer.
+
+                """
+
+                extra_types = []
+
+                if _type is int:
+                    extra_types.append(type(None))
+
+                return extra_types
+
+
+        # make a valid NonUser with name and age:
+        anon = NonUser(
+                name="user_from_linked_in_ad_31351513_A13CB941FF22",
+                age=27)
+
+        # make a valid NonUser with name but an age of `None`:
+        anon = NonUser(
+                name="user_from_linked_in_ad_31351513_A13CB941FF22",
+                age=None)
+
+        # make a NonUser and don't send the age:
+        with self.assert_raises(DStruct.RequiredAttributeMissing):
+            anon = NonUser(
+                    name="user_from_linked_in_ad_31351513_A13CB941FF22")
+
+        # make a NonUser and send an age that is not an `int` OR `None`:
+        with self.assert_raises(DStruct.RequiredAttributeInvalid):
+            anon = NonUser(
+                    name="user_from_linked_in_ad_31351513_A13CB941FF22",
+                    age="eighteen")
