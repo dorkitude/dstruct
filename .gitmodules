@@ -1,3 +1,6 @@
 [submodule "dorkitude_utils"]
 	path = dorkitude_utils
 	url = git@github.com:dorkitude/dorkitude_utils_python.git
+[submodule "python_memoize"]
+	path = python_memoize
+	url = git@github.com:dorkitude/python_memoize.git
