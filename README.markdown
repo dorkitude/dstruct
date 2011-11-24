@@ -5,10 +5,17 @@ You can use this to wrap a dictionary and/or a list of keyword args with an
 object capable of direct attribute access.  This is great for making fake
 objects that conform to a simple attribute interface.
 
-For example, your controller can use DStruct instead of Dictionaries to
-pass complex/multi-level stuff into a template.  If you pass complex stuff
-in with DStruct, you've established a flexible accessor interface, the
-backend implementation of which can be changed later with no harm done!
+
+For example, your controller can use DStruct instead of Dictionaries to pass
+complex/multi-level stuff into a template.  If you pass complex stuff in with
+DStruct, you've now established a flexible accessor interface, the internal
+implementation of which can be changed later without consumption code being
+updated.
+
+But more than just a temporary solution, DSTruct makes an excellent base model
+class for all of your non-db-backed models (or mock-db-backed models).  When
+you extend DStruct, you can apply schema rules that range in rigidity from
+anarchist to fascist.
 
 
 General Examples
@@ -34,8 +41,7 @@ Initialize with a dictionary *and* keyword arguments:
 Subclassing
 ===========
 
-You can subclass DStruct to configure its behavior.  Think of it as a BaseModel
-for your non-db-backed stuff :)
+You can subclass DStruct to configure its behavior.  
 
  * You can specify certain attributes as "required", and if your call to the
 constructor is missing one of them, initialization will raise an Exception
