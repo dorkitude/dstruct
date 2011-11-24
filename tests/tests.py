@@ -60,13 +60,13 @@ class DStructTestCase(BaseTestCase):
         self.assert_equal(point.y - origin.y, 12) # outputs 5
         
         # test a few varieties of improper use:
-        with self.assertRaises(DStruct.RequiredAttributeMissing):
+        with self.assert_raises(DStruct.RequiredAttributeMissing):
             crap = CartesianCoordinate(x=3)
 
-        with self.assertRaises(DStruct.RequiredAttributeMissing):
+        with self.assert_raises(DStruct.RequiredAttributeMissing):
             crap = CartesianCoordinate({"y":3})
 
-        with self.assertRaises(DStruct.RequiredAttributeMissing):
+        with self.assert_raises(DStruct.RequiredAttributeMissing):
             crap = CartesianCoordinate()
 
 
@@ -98,7 +98,7 @@ class DStructTestCase(BaseTestCase):
         HippieStruct(x=1.5, y=1)
 
         # But this should still fail:
-        with self.assertRaises(DStruct.RequiredAttributeInvalid):
+        with self.assert_raises(DStruct.RequiredAttributeInvalid):
             HippieStruct(x="DUDE THAT IS A STRING!", y=1)
 
 
@@ -180,14 +180,14 @@ class DStructTestCase(BaseTestCase):
 
 
         # supply an invalid attribute type
-        with self.assertRaises(DStruct.RequiredAttributeInvalid):
+        with self.assert_raises(DStruct.RequiredAttributeInvalid):
             thing = MapLocation({
                 "latitude": 1.5,
                 "longitude": 3,  # this is an int, not a float!  BOOM
                 "label": Label("sup"), 
                 })
 
-        with self.assertRaises(DStruct.RequiredAttributeInvalid):
+        with self.assert_raises(DStruct.RequiredAttributeInvalid):
             thing = MapLocation({
                 "latitude": 1.5,
                 "longitude": 3.4, 
@@ -196,7 +196,7 @@ class DStructTestCase(BaseTestCase):
 
         
         # confirm
-        with self.assertRaises(DStruct.RequiredAttributeMissing):
+        with self.assert_raises(DStruct.RequiredAttributeMissing):
             thing = MapLocation({
                 "latitude": 1.5,
                 "longitude": 3.4,
@@ -225,11 +225,11 @@ class DStructTestCase(BaseTestCase):
         i = SlowInt({"value":9})
 
         # try not sending a field called "value":
-        with self.assertRaises(DStruct.RequiredAttributeMissing):
+        with self.assert_raises(DStruct.RequiredAttributeMissing):
             i = SlowInt({"x":9})
 
         # try sending an invalid type for "value":
-        with self.assertRaises(DStruct.RequiredAttributeInvalid):
+        with self.assert_raises(DStruct.RequiredAttributeInvalid):
             i = SlowInt({"value":9.4}) # a float, not an int. BOOM!
 
 
