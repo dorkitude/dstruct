@@ -229,3 +229,51 @@ class DStructTestCase(BaseTestCase):
         # But this should still fail:
         with self.assert_raises(DStruct.RequiredAttributeInvalid):
             HippieStruct(x="DUDE THAT IS A STRING!", y=1)
+
+    def test_delayed_verification(self):
+
+        class Product(DStruct):
+
+            # tell DStruct.__init__ not to verify schema:
+            struct_schema_check_on_init = False
+
+            # schema:
+            name = DStruct.RequiredAttribute(str)
+            category = DStruct.RequiredAttribute(str)
+            price_in_cents = DStruct.RequiredAttribute(int)
+            price_displayed = DStruct.RequiredAttribute(str)
+
+            def __init__(self, *args, **kwargs):
+                # load my attributes:
+                super(Product, self).__init__(*args, **kwargs)
+
+                # set price_displayed:
+                self.price_displayed = "${}".format(
+                        float(self.price_in_cents)/100)
+
+                # now, check the schema:
+                self.check_struct_schema()
+
+
+        # make a valid Product:
+        product = Product(
+                name="The Ten Faces of Innovation",
+                category="Books",
+                price_in_cents=1977)
+
+        self.assert_equal(product.price_displayed, "$19.77")
+
+
+        # make a Product that's missing a required attribute:
+        with self.assert_raises(DStruct.RequiredAttributeMissing):
+            product = Product(
+                    name="The Ten Faces of Innovation",
+                    price_in_cents=1977)
+
+        # make an invalid Product:
+        with self.assert_raises(DStruct.RequiredAttributeInvalid):
+            product = Product(
+                    name="The Ten Faces of Innovation",
+                    category=None,
+                    price_in_cents=1977)
+
