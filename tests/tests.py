@@ -69,39 +69,6 @@ class DStructTestCase(BaseTestCase):
         with self.assert_raises(DStruct.RequiredAttributeMissing):
             crap = CartesianCoordinate()
 
-
-    def test_flexible_schema(self):
-
-        class HippieStruct(DStruct):
-
-            x = DStruct.RequiredAttribute(int)
-            y = DStruct.RequiredAttribute(float)
-
-            @classmethod
-            def get_extra_allowed_types(cls, _type):
-                x = super(HippieStruct, cls).get_extra_allowed_types(
-                        _type)
-
-                if _type is int:
-                    x.append(float)
-                elif _type is float:
-                    x.append(int)
-
-                return x
-
-
-        # None of these should fail, since float and int are interchangeable
-        # now:
-        HippieStruct(x=1, y=1)
-        HippieStruct(x=1.5, y=1.5)
-        HippieStruct(x=1, y=1.5)
-        HippieStruct(x=1.5, y=1)
-
-        # But this should still fail:
-        with self.assert_raises(DStruct.RequiredAttributeInvalid):
-            HippieStruct(x="DUDE THAT IS A STRING!", y=1)
-
-
     def test_struct_required_attribute_invalid(self):
 
         class BaseLabel(object):
@@ -232,5 +199,33 @@ class DStructTestCase(BaseTestCase):
         with self.assert_raises(DStruct.RequiredAttributeInvalid):
             i = SlowInt({"value":9.4}) # a float, not an int. BOOM!
 
+    def test_flexible_schema(self):
+
+        class HippieStruct(DStruct):
+
+            x = DStruct.RequiredAttribute(int)
+            y = DStruct.RequiredAttribute(float)
+
+            @classmethod
+            def get_extra_allowed_types(cls, _type):
+                x = super(HippieStruct, cls).get_extra_allowed_types(
+                        _type)
+
+                if _type is int:
+                    x.append(float)
+                elif _type is float:
+                    x.append(int)
+
+                return x
 
 
+        # None of these should fail, since float and int are interchangeable
+        # now:
+        HippieStruct(x=1, y=1)
+        HippieStruct(x=1.5, y=1.5)
+        HippieStruct(x=1, y=1.5)
+        HippieStruct(x=1.5, y=1)
+
+        # But this should still fail:
+        with self.assert_raises(DStruct.RequiredAttributeInvalid):
+            HippieStruct(x="DUDE THAT IS A STRING!", y=1)
