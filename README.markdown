@@ -1,7 +1,7 @@
-General Use
-===========
+Background
+==========
 
-You can use this to wrap a dictionary and/or a list of keyword args with an
+You can use DStruct to wrap a dictionary and/or a list of keyword args with an
 object capable of direct attribute access.  This is great for making fake
 objects that conform to a simple attribute interface.
 
