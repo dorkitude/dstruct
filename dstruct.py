@@ -1,6 +1,3 @@
-import copy
-
-
 from python_memoize import Memoize
 from dorkitude_utils.classproperty import classproperty
 from dorkitude_utils.introspection import extract_classes
@@ -247,23 +244,6 @@ class DStruct(object):
 
     def __getitem__(self, key):
         return self.__dict__[key]
-
-    def to_dict(self):
-        d = copy.deepcopy(self.__dict__)
-        d["`self.__class___.__name__`"] = self.__class__.__name__
-        d["`id(self)`"] = id(self)
-        return d
-
-    def __repr__(self):
-        d = self.to_dict()
-        d.update({
-            "id": id(self),
-        })
-        return str(d)
-
-    def __str__(self):
-        d = self.to_dict()
-        return str(d)
 
     @classproperty
     def required_attributes(cls):
