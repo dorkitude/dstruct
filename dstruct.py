@@ -5,9 +5,6 @@ from dorkitude_utils.introspection import extract_classes
 class DStruct(object):
     """
 
-    General Use
-    ===========
-
     You can use this to wrap a dictionary and/or a list of keyword args with an
     object capable of direct attribute access.  This is great for making fake
     objects that conform to a simple attribute interface.
@@ -17,10 +14,8 @@ class DStruct(object):
     in with DStruct, you've established a flexible accessor interface, the
     backend implementation of which can be changed later with no harm done!
 
-    If you're curious about why we have to do this: http://drktd.com/AlEE
-
-    General Examples
-    ----------------
+    Simple Usage
+    ============
 
     Initialize with a dictionary:
 
@@ -58,15 +53,10 @@ class DStruct(object):
     
         class CartesianCoordinate(DStruct):
             # Represents a cartesian point.
-            # You must construct with 'x' and 'y' attibutes!
-
             
-
+            # You must construct this with 'x' and 'y' attributes:
             x = DStruct.RequiredAttribute()
             y = DStruct.RequiredAttribute()
-
-            # FYI, it would be equivalent to write:
-            # required_attributes = {"x":None, "y":None}
 
     Valid use:
 
@@ -79,9 +69,8 @@ class DStruct(object):
         
         crap = CartesianCoordinate(x=3) # raises RequiredAttributeMissing
 
-
-    Advanced Subclass Examples: Required Attribute
-    ----------------------------------------------
+    Advanced Subclass Examples: Required Attribute with a type
+    ----------------------------------------------------------
     
     Declare a DStruct subclass with some attribute type requirements:
 
@@ -104,20 +93,19 @@ class DStruct(object):
 
     Invalid use:
 
-        with self.assertRaises(DStruct.RequiredAttributeInvalid):
-            thing = MapLocation({
-                "latitude": 1.5,
-                "longitude": 3,  # this is an int, not a float!  BOOM!
-                "label": Label("sup"), 
-                })
-
-
-        with self.assertRaises(DStruct.RequiredAttributeInvalid):
-            thing = MapLocation({
-                "latitude": 1.5,
-                "longitude": 3.4, 
-                "label": 991,# this is an int, not a Label instance!  BOOM!
-                })
+        # raises an RequiredAttributeInvalid
+        thing = MapLocation({
+            "latitude": 1.5,
+            "longitude": 3,  # this is an int, not a float!  BOOM!
+            "label": Label("sup"), 
+            })
+            
+        # raises an RequiredAttributeInvalid
+        thing = MapLocation({
+            "latitude": 1.5,
+            "longitude": 3.4, 
+            "label": 991,  # this is an int, not a Label instance!  BOOM!
+            })
 
     """
 
