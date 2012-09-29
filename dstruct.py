@@ -1,6 +1,4 @@
-from python_memoize import Memoize
-from dorkitude_utils.classproperty import classproperty
-from dorkitude_utils.introspection import extract_classes
+from utils import classproperty, extract_classes
 
 class DStruct(object):
     """
@@ -237,17 +235,6 @@ class DStruct(object):
     def required_attributes(cls):
         """
 
-       Un-Memoized wrapper for Memoized classmethod
-        `calculate_required_attributes`
-
-        """
-        return cls.calculate_required_attributes()
-
-    @classmethod
-    @Memoize
-    def calculate_required_attributes(cls):
-        """
-
         Figures out which attributes, if any, were declared as
         RequiredAttribute instances.
 
@@ -256,6 +243,7 @@ class DStruct(object):
         `None` or a type object.
 
         """
+
         required_attributes = {}
 
         for clazz in extract_classes(cls):

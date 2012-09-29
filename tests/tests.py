@@ -1,10 +1,8 @@
 # Python standard library imports:
 import random
-import unittest
 
 # Our imports:
-from ..dorkitude_utils.base_test_case import BaseTestCase
-
+from base_test_case import BaseTestCase
 from .. import DStruct
 
 
